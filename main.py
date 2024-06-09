@@ -33,7 +33,10 @@ def merge_json_files(file_paths):
     for file_path in file_paths:
         with open(file_path, 'r') as file:
             data = json.load(file)
-            merged_data["canvasItems"].extend(data.get("canvasItems", []))
+            if isinstance(data, dict):  # Ensure data is a dictionary
+                merged_data["canvasItems"].extend(data.get("canvasItems", []))
+            else:
+                print(f"Warning: {file_path} does not contain a JSON object.")
 
     return merged_data
 
